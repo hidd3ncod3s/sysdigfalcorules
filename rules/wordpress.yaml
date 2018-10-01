@@ -82,3 +82,24 @@
   authors:
   - author: hidd3ncod3s
     email: hidd3ncod3s@gmail.com
+
+
+- rule: Wordpress Ajax Load More PHP Upload Vulnerability
+  desc: Wordpress Ajax Load More PHP Upload Vulnerability
+  condition: >
+    webserver_procs
+    and open_write
+    and fd.name contains "/wp-content/plugins/ajax-load-more/core/repeater/"
+    and fd.filename contains ".php"
+  output: Wordpress Ajax Load More PHP Upload Vulnerability
+  priority: CRITICAL
+  references:
+  - https://wpvulndb.com/vulnerabilities/8209
+  msf:
+  - unix/webapp/wp_ajax_load_more_file_upload
+  tags:
+  - wordpress
+  - script upload
+  authors:
+  - author: hidd3ncod3s
+    email: hidd3ncod3s@gmail.com
