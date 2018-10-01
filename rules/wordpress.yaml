@@ -19,15 +19,21 @@
 # Author: hidd3ncod3s@gmail.com
 #         https://github.com/hidd3ncod3s/sysdigfalcorules/
 
+#Using the fields from this page.
+#https://github.com/draios/sysdig/wiki/Sysdig-User-Guide
+#and evt.is_open_write='true'
+
 - macro: open_write
   condition: (evt.type=open or evt.type=openat) and evt.is_open_write=true and fd.typechar='f' and fd.num>=0
+  
+- macro: rename
+  condition: evt.type in (rename, renameat)
 
 - list: webserver_binaries
-  items: [apache, apache2, httpd]
+  items: [apache, apache2, httpd, mv]
   
 - macro: webserver_procs
   condition: proc.name in (webserver_binaries)
-
 
 
 - rule: WordPress WP Mobile Detector 3.5 Shell Upload
@@ -35,7 +41,7 @@
   condition: >
     webserver_procs
     and open_write
-    and fd.name     contains "/var/www/html/wp-content/plugins/wp-mobile-detector/cache/"
+    and fd.name contains "/wp-content/plugins/wp-mobile-detector/cache/"
     and fd.filename contains ".php"
   output: WordPress WP Mobile Detector 3.5 Shell Upload
   priority: CRITICAL
@@ -52,3 +58,27 @@
   - author: hidd3ncod3s
     email: hidd3ncod3s@gmail.com
 
+#The real place to stop this module is looking for the rename operation.
+#This rule can be modified into a generic rule.
+- rule: CMS Made Simple Authenticated RCE via File Upload/Copy
+  desc: CMS Made Simple Authenticated RCE via File Upload/Copy
+  condition: >
+    webserver_procs
+    and rename
+    and evt.arg[1] contains "/uploads/"
+    and evt.arg[2] contains ".php"
+  output: CMS Made Simple Authenticated RCE via File Upload/Copy
+  priority: CRITICAL
+  references:
+  - https://cvedetails.com/cve/CVE-2018-1000094/
+  - https://cwe.mitre.org/data/definitions/434.html
+  - https://www.exploit-db.com/exploits/44976
+  - http://dev.cmsmadesimple.org/bug/view/11741
+  msf:
+  - multi/http/cmsms_upload_rename_rce
+  tags:
+  - wordpress
+  - script upload
+  authors:
+  - author: hidd3ncod3s
+    email: hidd3ncod3s@gmail.com
