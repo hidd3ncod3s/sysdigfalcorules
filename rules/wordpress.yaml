@@ -30,7 +30,7 @@
   condition: evt.type in (rename, renameat)
 
 - list: webserver_binaries
-  items: [apache, apache2, httpd, mv]
+  items: [apache, apache2, httpd]
   
 - macro: webserver_procs
   condition: proc.name in (webserver_binaries)
