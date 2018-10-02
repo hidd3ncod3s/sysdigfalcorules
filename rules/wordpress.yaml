@@ -128,3 +128,27 @@
   authors:
   - author: hidd3ncod3s
     email: hidd3ncod3s@gmail.com
+    
+
+
+- rule: Wordpress Creative Contact Form Upload Vulnerability
+  desc: Wordpress Creative Contact Form Upload Vulnerability
+  condition: >
+    webserver_procs
+    and open_write
+    and fd.name contains "/wp-content/plugins/sexy-contact-form/includes/fileupload/files/"
+    and fd.filename contains ".php"
+  output: Wordpress Creative Contact Form Upload Vulnerability
+  priority: CRITICAL
+  references:
+  - https://www.exploit-db.com/exploits/35057
+  - OSVDB (113669)
+  - https://wpvulndb.com/vulnerabilities/7652
+  msf:
+  - unix/webapp/wp_creativecontactform_file_upload
+  tags:
+  - wordpress
+  - script upload
+  authors:
+  - author: hidd3ncod3s
+    email: hidd3ncod3s@gmail.com
