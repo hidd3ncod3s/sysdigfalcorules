@@ -1,0 +1,75 @@
+#
+# Copyright (C) 2018 hidd3ncod3s.
+#
+# This file is part of falco.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# Author: hidd3ncod3s@gmail.com
+#         https://github.com/hidd3ncod3s/sysdigfalcorules/
+
+#Using the fields from this page.
+#https://github.com/draios/sysdig/wiki/Sysdig-User-Guide
+
+- macro: open_write
+  condition: (evt.type=open or evt.type=openat) and evt.is_open_write=true and fd.typechar='f' and fd.num>=0
+
+- macro: rename
+  condition: evt.type in (rename, renameat)
+
+- list: webserver_binaries
+  items: [apache, apache2, httpd, mv]
+  
+- macro: webserver_procs
+  condition: proc.name in (webserver_binaries)
+
+# Generic rule 1) Generic detection of the file upload(scripts) vulnerability.
+#                 Technically we should not see script write operation after the webapp is started.
+#                 One corner case, say plugin installation after webapp is started.
+
+# I would love to have this rule name like this but falco engine does not like this format. ;-)
+#- rule: Script file dropped(write/overwrite)
+- rule: Script file dropped - write/overwrite
+  desc: Script file dropped(write/overwrite)
+  condition: >
+    webserver_procs
+    and open_write
+    and fd.name contains ".php"
+  output: Script file dropped(write/overwrite) (%fd.name)
+  priority: CRITICAL
+  references:
+  msf:
+  tags:
+  - script altered(write/overwrite)
+  authors:
+  - author: hidd3ncod3s
+    email: hidd3ncod3s@gmail.com
+
+# Generic rule 2) Generic detection of the file upload(scripts) vulnerability.
+#                 Technically we should not see script rename operation in most of the cases.
+- rule: Script file dropped - renamed
+  desc: Script file dropped(renamed)
+  condition: >
+    webserver_procs
+    and rename
+    and evt.arg[2] contains ".php"
+  output: Script file dropped(renamed) (%evt.arg[2])
+  priority: CRITICAL
+  references:
+  msf:
+  tags:
+  - script altered(renamed)
+  authors:
+  - author: hidd3ncod3s
+    email: hidd3ncod3s@gmail.com
