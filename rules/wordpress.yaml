@@ -103,3 +103,28 @@
   authors:
   - author: hidd3ncod3s
     email: hidd3ncod3s@gmail.com
+
+
+- rule: WordPress Asset-Manager PHP File Upload Vulnerability
+  desc: WordPress Asset-Manager PHP File Upload Vulnerability
+  condition: >
+    webserver_procs
+    and open_write
+    and fd.name contains "/wp-content/uploads/assets/temp/"
+    and fd.filename contains ".php"
+  output: WordPress Asset-Manager PHP File Upload Vulnerability
+  priority: CRITICAL
+  references:
+  - OSVDB (82653)
+  - http://www.securityfocus.com/bid/53809
+  - https://www.exploit-db.com/exploits/18993
+  - http://www.opensyscom.fr/Actualites/wordpress-plugins-asset-manager-shell-upload-vulnerability.html
+  - https://wpvulndb.com/vulnerabilities/6106
+  msf:
+  - unix/webapp/wp_asset_manager_upload_exec
+  tags:
+  - wordpress
+  - script upload
+  authors:
+  - author: hidd3ncod3s
+    email: hidd3ncod3s@gmail.com
