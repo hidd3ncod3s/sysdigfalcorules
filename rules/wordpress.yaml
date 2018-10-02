@@ -152,3 +152,47 @@
   authors:
   - author: hidd3ncod3s
     email: hidd3ncod3s@gmail.com
+    
+- rule: Wordpress Download Manager (download-manager) Unauthenticated File Upload
+  desc: Wordpress Download Manager (download-manager) Unauthenticated File Upload
+  condition: >
+    webserver_procs
+    and open_write
+    and fd.name contains "/wp-content/uploads/download-manager-files/"
+    and fd.filename contains ".php"
+  output: Wordpress Download Manager (download-manager) Unauthenticated File Upload
+  priority: CRITICAL
+  references:
+  - http://blog.sucuri.net/2014/12/security-advisory-high-severity-wordpress-download-manager.html
+  - https://wpvulndb.com/vulnerabilities/7706
+  msf:
+  - unix/webapp/wp_downloadmanager_upload
+  tags:
+  - wordpress
+  - script upload
+  authors:
+  - author: hidd3ncod3s
+    email: hidd3ncod3s@gmail.com
+    
+
+- rule: WordPress WP EasyCart Unrestricted File Upload
+  desc: WordPress WP EasyCart Unrestricted File Upload
+  condition: >
+    webserver_procs
+    and open_write
+    and fd.name contains "/wp-content/plugins/wp-easycart/products/banners/"
+    and fd.filename contains ".php"
+  output: WordPress WP EasyCart Unrestricted File Upload
+  priority: CRITICAL
+  references:
+  - https://cvedetails.com/cve/CVE-2014-9308/
+  - OSVDB (116806)
+  - https://wpvulndb.com/vulnerabilities/7745
+  msf:
+  - unix/webapp/wp_easycart_unrestricted_file_upload
+  tags:
+  - wordpress
+  - script upload
+  authors:
+  - author: hidd3ncod3s
+    email: hidd3ncod3s@gmail.com
