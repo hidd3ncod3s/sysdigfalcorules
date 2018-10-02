@@ -21,7 +21,6 @@
 
 #Using the fields from this page.
 #https://github.com/draios/sysdig/wiki/Sysdig-User-Guide
-#and evt.is_open_write='true'
 
 - macro: open_write
   condition: (evt.type=open or evt.type=openat) and evt.is_open_write=true and fd.typechar='f' and fd.num>=0
@@ -43,7 +42,7 @@
     and open_write
     and fd.name contains "/wp-content/plugins/wp-mobile-detector/cache/"
     and fd.filename contains ".php"
-  output: WordPress WP Mobile Detector 3.5 Shell Upload
+  output: WordPress WP Mobile Detector 3.5 Shell Upload (%fd.name)
   priority: CRITICAL
   references:
   - https://wpvulndb.com/vulnerabilities/8505
@@ -67,7 +66,7 @@
     and rename
     and evt.arg[1] contains "/uploads/"
     and evt.arg[2] contains ".php"
-  output: CMS Made Simple Authenticated RCE via File Upload/Copy
+  output: CMS Made Simple Authenticated RCE via File Upload/Copy (%evt.arg[2])
   priority: CRITICAL
   references:
   - https://cvedetails.com/cve/CVE-2018-1000094/
@@ -83,7 +82,6 @@
   - author: hidd3ncod3s
     email: hidd3ncod3s@gmail.com
 
-
 - rule: Wordpress Ajax Load More PHP Upload Vulnerability
   desc: Wordpress Ajax Load More PHP Upload Vulnerability
   condition: >
@@ -91,7 +89,7 @@
     and open_write
     and fd.name contains "/wp-content/plugins/ajax-load-more/core/repeater/"
     and fd.filename contains ".php"
-  output: Wordpress Ajax Load More PHP Upload Vulnerability
+  output: Wordpress Ajax Load More PHP Upload Vulnerability (%fd.name)
   priority: CRITICAL
   references:
   - https://wpvulndb.com/vulnerabilities/8209
@@ -104,7 +102,6 @@
   - author: hidd3ncod3s
     email: hidd3ncod3s@gmail.com
 
-
 - rule: WordPress Asset-Manager PHP File Upload Vulnerability
   desc: WordPress Asset-Manager PHP File Upload Vulnerability
   condition: >
@@ -112,7 +109,7 @@
     and open_write
     and fd.name contains "/wp-content/uploads/assets/temp/"
     and fd.filename contains ".php"
-  output: WordPress Asset-Manager PHP File Upload Vulnerability
+  output: WordPress Asset-Manager PHP File Upload Vulnerability (%fd.name)
   priority: CRITICAL
   references:
   - OSVDB (82653)
@@ -129,8 +126,6 @@
   - author: hidd3ncod3s
     email: hidd3ncod3s@gmail.com
     
-
-
 - rule: Wordpress Creative Contact Form Upload Vulnerability
   desc: Wordpress Creative Contact Form Upload Vulnerability
   condition: >
@@ -138,7 +133,7 @@
     and open_write
     and fd.name contains "/wp-content/plugins/sexy-contact-form/includes/fileupload/files/"
     and fd.filename contains ".php"
-  output: Wordpress Creative Contact Form Upload Vulnerability
+  output: Wordpress Creative Contact Form Upload Vulnerability (%fd.name)
   priority: CRITICAL
   references:
   - https://www.exploit-db.com/exploits/35057
@@ -160,7 +155,7 @@
     and open_write
     and fd.name contains "/wp-content/uploads/download-manager-files/"
     and fd.filename contains ".php"
-  output: Wordpress Download Manager (download-manager) Unauthenticated File Upload
+  output: Wordpress Download Manager (download-manager) Unauthenticated File Upload (%fd.name)
   priority: CRITICAL
   references:
   - http://blog.sucuri.net/2014/12/security-advisory-high-severity-wordpress-download-manager.html
@@ -174,7 +169,6 @@
   - author: hidd3ncod3s
     email: hidd3ncod3s@gmail.com
     
-
 - rule: WordPress WP EasyCart Unrestricted File Upload
   desc: WordPress WP EasyCart Unrestricted File Upload
   condition: >
@@ -182,7 +176,7 @@
     and open_write
     and fd.name contains "/wp-content/plugins/wp-easycart/products/banners/"
     and fd.filename contains ".php"
-  output: WordPress WP EasyCart Unrestricted File Upload
+  output: WordPress WP EasyCart Unrestricted File Upload (%fd.name)
   priority: CRITICAL
   references:
   - https://cvedetails.com/cve/CVE-2014-9308/
