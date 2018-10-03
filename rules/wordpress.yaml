@@ -190,3 +190,73 @@
   authors:
   - author: hidd3ncod3s
     email: hidd3ncod3s@gmail.com
+    
+    
+- rule: WordPress Plugin Foxypress uploadify.php Arbitrary Code Execution
+  desc: WordPress Plugin Foxypress uploadify.php Arbitrary Code Execution
+  condition: >
+    webserver_procs
+    and open_write
+    and fd.name contains "/wp-content/affiliate_images/"
+    and fd.filename contains ".php"
+  output: WordPress Plugin Foxypress uploadify.php Arbitrary Code Execution
+  priority: CRITICAL
+  references:
+  - https://www.exploit-db.com/exploits/18991
+  - http://www.securityfocus.com/bid/53805
+  - https://wpvulndb.com/vulnerabilities/6231
+  msf:
+  - unix/webapp/wp_foxypress_upload
+  tags:
+  - wordpress
+  - script upload
+  authors:
+  - author: hidd3ncod3s
+    email: hidd3ncod3s@gmail.com
+    
+
+- rule: Wordpress Front-end Editor File Upload
+  desc: Wordpress Front-end Editor File Upload
+  condition: >
+    webserver_procs
+    and open_write
+    and fd.name contains "/wp-content/plugins/front-end-editor/lib/aloha-editor/plugins/extra/draganddropfiles/demo/"
+    and fd.filename contains ".php"
+  output: Wordpress Front-end Editor File Upload
+  priority: CRITICAL
+  references:
+  - OSVDB (83637)
+  - https://wpvulndb.com/vulnerabilities/7569
+  - http://www.opensyscom.fr/Actualites/wordpress-plugins-front-end-editor-arbitrary-file-upload-vulnerability.html
+  msf:
+  - unix/webapp/wp_frontend_editor_file_upload
+  tags:
+  - wordpress
+  - script upload
+  authors:
+  - author: hidd3ncod3s
+    email: hidd3ncod3s@gmail.com
+
+
+- rule: WordPress Holding Pattern Theme Arbitrary File Upload
+  desc: WordPress Holding Pattern Theme Arbitrary File Upload
+  condition: >
+    webserver_procs
+    and open_write
+    and fd.name contains "/wp-content/themes/holding_pattern/uploads/"
+    and fd.filename contains ".php"
+  output: WordPress Holding Pattern Theme Arbitrary File Upload
+  priority: CRITICAL
+  references:
+  - https://cvedetails.com/cve/CVE-2015-1172/
+  - https://wpvulndb.com/vulnerabilities/7784
+  - https://packetstormsecurity.com/files/130282
+  msf:
+  - unix/webapp/wp_holding_pattern_file_upload
+  tags:
+  - wordpress
+  - script upload
+  authors:
+  - author: hidd3ncod3s
+    email: hidd3ncod3s@gmail.com
+
