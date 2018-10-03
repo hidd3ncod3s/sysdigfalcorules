@@ -260,3 +260,26 @@
   - author: hidd3ncod3s
     email: hidd3ncod3s@gmail.com
 
+
+- rule: Wordpress InBoundio Marketing PHP Upload Vulnerability
+  desc: Wordpress InBoundio Marketing PHP Upload Vulnerability
+  condition: >
+    webserver_procs
+    and open_write
+    and fd.name contains "/wp-content/plugins/inboundio-marketing/admin/partials/uploaded_csv/"
+    and fd.filename contains ".php"
+  output: Wordpress InBoundio Marketing PHP Upload Vulnerability (%fd.name)
+  priority: CRITICAL
+  references:
+  - https://www.exploit-db.com/exploits/36478
+  - OSVDB (119890)
+  - https://wpvulndb.com/vulnerabilities/7864
+  msf:
+  - unix/webapp/wp_inboundio_marketing_file_upload
+  tags:
+  - wordpress
+  - script upload
+  authors:
+  - author: hidd3ncod3s
+    email: hidd3ncod3s@gmail.com
+
