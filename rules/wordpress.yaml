@@ -199,7 +199,7 @@
     and open_write
     and fd.name contains "/wp-content/affiliate_images/"
     and fd.filename contains ".php"
-  output: WordPress Plugin Foxypress uploadify.php Arbitrary Code Execution
+  output: WordPress Plugin Foxypress uploadify.php Arbitrary Code Execution (%fd.name)
   priority: CRITICAL
   references:
   - https://www.exploit-db.com/exploits/18991
@@ -222,7 +222,7 @@
     and open_write
     and fd.name contains "/wp-content/plugins/front-end-editor/lib/aloha-editor/plugins/extra/draganddropfiles/demo/"
     and fd.filename contains ".php"
-  output: Wordpress Front-end Editor File Upload
+  output: Wordpress Front-end Editor File Upload (%fd.name)
   priority: CRITICAL
   references:
   - OSVDB (83637)
@@ -245,7 +245,7 @@
     and open_write
     and fd.name contains "/wp-content/themes/holding_pattern/uploads/"
     and fd.filename contains ".php"
-  output: WordPress Holding Pattern Theme Arbitrary File Upload
+  output: WordPress Holding Pattern Theme Arbitrary File Upload (%fd.name)
   priority: CRITICAL
   references:
   - https://cvedetails.com/cve/CVE-2015-1172/
