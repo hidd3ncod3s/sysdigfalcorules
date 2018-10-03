@@ -33,6 +33,9 @@
   
 - macro: webserver_procs
   condition: proc.name in (webserver_binaries)
+  
+- macro: insidethecontainer
+  condition: container.id != host
 
 # Generic rule 1) Generic detection of the file upload(scripts) vulnerability.
 #                 Technically we should not see script write operation after the webapp is started.
@@ -45,6 +48,7 @@
   condition: >
     webserver_procs
     and open_write
+    and insidethecontainer
     and fd.name contains ".php"
   output: Script file dropped(write/overwrite) (%fd.name)
   priority: CRITICAL
@@ -63,6 +67,7 @@
   condition: >
     webserver_procs
     and rename
+    and insidethecontainer
     and evt.arg[2] contains ".php"
   output: Script file dropped(renamed) (%evt.arg[2])
   priority: CRITICAL
