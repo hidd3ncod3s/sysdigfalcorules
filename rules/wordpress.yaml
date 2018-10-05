@@ -59,31 +59,6 @@
   - author: hidd3ncod3s
     email: hidd3ncod3s@gmail.com
 
-#The real place to stop this module is looking for the rename operation.
-#This rule can be modified into a generic rule.
-- rule: CMS Made Simple Authenticated RCE via File Upload/Copy
-  desc: CMS Made Simple Authenticated RCE via File Upload/Copy
-  condition: >
-    webserver_procs
-    and rename
-    and evt.arg[1] contains "/uploads/"
-    and evt.arg[2] contains ".php"
-  output: CMS Made Simple Authenticated RCE via File Upload/Copy (%evt.arg[2])
-  priority: CRITICAL
-  references:
-  - https://cvedetails.com/cve/CVE-2018-1000094/
-  - https://cwe.mitre.org/data/definitions/434.html
-  - https://www.exploit-db.com/exploits/44976
-  - http://dev.cmsmadesimple.org/bug/view/11741
-  msf:
-  - multi/http/cmsms_upload_rename_rce
-  tags:
-  - wordpress
-  - script upload
-  authors:
-  - author: hidd3ncod3s
-    email: hidd3ncod3s@gmail.com
-
 - rule: Wordpress Ajax Load More PHP Upload Vulnerability
   desc: Wordpress Ajax Load More PHP Upload Vulnerability
   condition: >
@@ -286,15 +261,15 @@
     email: hidd3ncod3s@gmail.com
 
 # Generic rule.
-- rule: Scipt written to 'uploads' directory
-  desc: Scipt written to 'uploads' directory
+- rule: Scipt written to Wordpress 'uploads' directory
+  desc: Scipt written to Wordpress 'uploads' directory
   condition: >
     webserver_procs
     and open_write
     and insidethecontainer
     and fd.name contains "/wp-content/uploads/"
     and fd.filename contains ".php"
-  output: Scipt written to 'uploads' directory (%fd.name)
+  output: Scipt written to Wordpress 'uploads' directory (%fd.name)
   priority: CRITICAL
   references:
   - http://www.homelab.it/index.php/2015/04/12/wordpress-n-media-website-contact-form-shell-upload/
