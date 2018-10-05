@@ -46,6 +46,7 @@
     webserver_procs
     and rename
     and evt.arg[1] contains "/uploads/"
+    and evt.arg[2] contains "/uploads/"
     and evt.arg[2] contains ".php"
   output: CMS Made Simple Authenticated RCE via File Upload/Copy (%evt.arg[2])
   priority: CRITICAL
