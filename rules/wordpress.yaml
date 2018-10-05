@@ -34,6 +34,8 @@
 - macro: webserver_procs
   condition: proc.name in (webserver_binaries)
 
+- macro: insidethecontainer
+  condition: container.id != host
 
 - rule: WordPress WP Mobile Detector 3.5 Shell Upload
   desc: WordPress WP Mobile Detector 3.5 Shell Upload
@@ -289,6 +291,7 @@
   condition: >
     webserver_procs
     and open_write
+    and insidethecontainer
     and fd.name contains "/wp-content/uploads/"
     and fd.filename contains ".php"
   output: Scipt written to 'uploads' directory (%fd.name)
@@ -314,6 +317,7 @@
   condition: >
     webserver_procs
     and open_write
+    and insidethecontainer
     and fd.name contains "/wp-admin/"
     and fd.filename contains ".php"
   output: WordPress Photo Gallery Unrestricted File Upload (%fd.name)
