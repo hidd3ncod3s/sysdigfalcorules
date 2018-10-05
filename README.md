@@ -1,6 +1,6 @@
 # Sysdig Falco Rules
 
-Public Sysdig Falco Rules to protect against known public vulnerabilities. 
+Sysdig Falco Rules to protect against known public vulnerabilities. 
 
 ## Usage
 
