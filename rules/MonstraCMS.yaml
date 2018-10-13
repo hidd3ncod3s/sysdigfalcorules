@@ -37,22 +37,24 @@
 - macro: insidethecontainer
   condition: container.id != host
   
-- rule: Log1 CMS writeInfo() PHP Code Injection
-  desc: Log1 CMS writeInfo() PHP Code Injection
+- rule: Monstra CMS Authenticated Arbitrary File Upload
+  desc: Monstra CMS Authenticated Arbitrary File Upload
   condition: >
     webserver_procs
     and open_write
     and insidethecontainer
-    and fd.name contains "admin/libraries/ajaxfilemanager/inc/data.php"
-  output: Log1 CMS writeInfo() PHP Code Injection (%fd.name)
+    and fd.name contains "/public/uploads/"
+    and fd.filename contains ".PHP"
+  output: Monstra CMS Authenticated Arbitrary File Upload
   priority: CRITICAL
   references:
-  - https://cvedetails.com/cve/CVE-2011-4825/
-  - OSVDB (76928)
-  - https://www.exploit-db.com/exploits/18075
-  - https://www.exploit-db.com/exploits/18151
+  - https://cvedetails.com/cve/CVE-2017-18048/
+  - https://www.exploit-db.com/exploits/43348
+  - https://blogs.securiteam.com/index.php/archives/3559
+  - https://securityprince.blogspot.com/2017/12/monstra-cms-304-arbitrary-file-upload.html?m=1
+  - https://www.youtube.com/watch?v=-ziZ6DELbzw
   msf:
-  - multi/http/log1cms_ajax_create_folder
+  - multi/http/monstra_fileupload_exec
   tags:
   - wordpress
   - script upload
