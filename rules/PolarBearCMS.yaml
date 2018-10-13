@@ -37,27 +37,25 @@
 - macro: insidethecontainer
   condition: container.id != host
   
-- rule: Monstra CMS Authenticated Arbitrary File Upload
-  desc: Monstra CMS Authenticated Arbitrary File Upload
+- rule: PolarBear CMS PHP File Upload Vulnerability
+  desc: PolarBear CMS PHP File Upload Vulnerability
   condition: >
     webserver_procs
     and open_write
     and insidethecontainer
-    and fd.name contains "/public/uploads/"
-    and fd.filename contains ".PHP"
-  output: Monstra CMS Authenticated Arbitrary File Upload (%fd.name)
+    and fd.name contains "/polarbearcms/"
+    and fd.filename contains ".php"
+  output: PolarBear CMS PHP File Upload Vulnerability (%fd.name)
   priority: CRITICAL
   references:
-  - https://cvedetails.com/cve/CVE-2017-18048/
-  - https://www.exploit-db.com/exploits/43348
-  - https://blogs.securiteam.com/index.php/archives/3559
-  - https://securityprince.blogspot.com/2017/12/monstra-cms-304-arbitrary-file-upload.html?m=1
-  - https://www.youtube.com/watch?v=-ziZ6DELbzw
+  - https://cvedetails.com/cve/CVE-2013-0803/
+  - OSVDB (90627)
   msf:
-  - multi/http/monstra_fileupload_exec
+  - multi/http/polarcms_upload_exec
   tags:
   - wordpress
   - script upload
   authors:
   - author: hidd3ncod3s
     email: hidd3ncod3s@gmail.com
+  
