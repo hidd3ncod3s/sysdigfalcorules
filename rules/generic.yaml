@@ -49,7 +49,7 @@
     webserver_procs
     and open_write
     and insidethecontainer
-    and fd.name contains ".php"
+    and (fd.name contains ".php" or fd.name contains ".PHP")
   output: Script file dropped(write/overwrite) (%fd.name)
   priority: CRITICAL
   references:
@@ -68,7 +68,7 @@
     webserver_procs
     and rename
     and insidethecontainer
-    and evt.arg[2] contains ".php"
+    and (evt.arg[2] contains ".php" or evt.arg[2] contains ".PHP")
   output: Script file dropped(renamed) (%evt.arg[2])
   priority: CRITICAL
   references:
